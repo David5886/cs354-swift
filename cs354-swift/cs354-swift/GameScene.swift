@@ -50,6 +50,9 @@ class GameScene: SKScene {
         
     }
     
+    /**
+     Resets the game to initial state
+     */
     func resetGame() {
         //spawnSnake()
         createScene()
@@ -62,6 +65,9 @@ class GameScene: SKScene {
         }
     }
     
+    /**
+     Increases the size of the snake by a single point
+     */
     func growSnake() {
         let snakePoint = createPoint(x: 0, y: 0)
         addChild(snakePoint.node)
@@ -78,6 +84,9 @@ class GameScene: SKScene {
         createHorzFrame(y: height-75, minX: 0, maxX: width)
     }
     
+    /**
+     Creates the top horizontal frame at the top of the game board.
+     */
     func createHorzFrame(y:Int, minX:Int, maxX:Int) {
         for i in stride(from: minX, to: maxX, by: GameScene.POINT_SIZE){
             let point = createPoint(x: i, y: y)
@@ -86,6 +95,9 @@ class GameScene: SKScene {
         }
     }
     
+    /**
+     Point is used for game elements. Such as the snake, top boarder, and fruit
+     */
     func createPoint(x:Int,y:Int) -> Point {
         let node = SKSpriteNode(color: UIColor(red:1,green:1,blue:0,alpha:1), size: CGSize(width: GameScene.POINT_SIZE, height: GameScene.POINT_SIZE))
         node.position = CGPoint(x:x,y:y)
@@ -99,6 +111,9 @@ class GameScene: SKScene {
 //        return 0
 //    }
     
+    /**
+     Creates the gameboard, and sets default starting direction. It then calls functions to create fruit, frames, and spawn the snake onto the game board.
+     */
     func createScene() {
         backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
         dirX = GameScene.POINT_SIZE
@@ -108,6 +123,9 @@ class GameScene: SKScene {
         spawnSnake()
     }
     
+    /**
+     Spawns the snake onto the game board.
+     */
     func spawnSnake() {
         for s in snake {
             s.node.removeFromParent()
@@ -122,7 +140,7 @@ class GameScene: SKScene {
             if i == 0 {
                 point.node.color = UIColor(red:1,green:1,blue:0,alpha:1)
                 if i == 0 {
-                    print("head")
+                    //print("head")
                 }
                 addChild(point.node)
                 snake.append(point)
@@ -130,6 +148,9 @@ class GameScene: SKScene {
         }
     }
     
+    /**
+        Handles the movement of the snake. Also checks to see if the snake is still within the bounds of the game board. If the head of the snake hits the edge of the board, the game resets.
+     */
     func move() {
         var x = 0.0
         var y = 0.0
@@ -161,6 +182,9 @@ class GameScene: SKScene {
     
     var dirX = GameScene.POINT_SIZE
     var dirY = 0
+    /**
+     When a touch is detected, depending on where the touch was detected, change the position the snake is moving in
+     */
     func touchDown(atPoint pos : CGPoint) {
 //        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
 //            n.position = pos
@@ -169,8 +193,8 @@ class GameScene: SKScene {
 //        }
         let position = (Double(pos.x - self.frame.midX), Double(pos.y - frame.midY))
         switch position {
-        case let (x,y) where y > 0 && y > abs(x):
-            if(dirY == -10 && snake.count > 1) {
+        case let (x,y) where y > 0 && y > abs(x): //Set snake to move up
+            if(dirY == -10 && snake.count > 1) { //check to see if the snake is bigger than 1 point, if so, if the requested move is opposite of what the snake is moving, don't change direction.
                 print("ILLEGAL MOVE!");
                 return
             }
@@ -178,8 +202,8 @@ class GameScene: SKScene {
             dirY = GameScene.POINT_SIZE
             print("snake up")
             print(position);
-        case let (x,y) where y < 0 && abs(y) > abs(x):
-            if(dirY == 10 && snake.count > 1) {
+        case let (x,y) where y < 0 && abs(y) > abs(x): //Set snake to move down
+            if(dirY == 10 && snake.count > 1) { //check to see if the snake is bigger than 1 point, if so, if the requested move is opposite of what the snake is moving, don't change direction.
                 print("ILLEGAL MOVE!")
                 return
             }
@@ -187,8 +211,8 @@ class GameScene: SKScene {
             dirY = -GameScene.POINT_SIZE
             print("snake down")
             print(position);
-        case let (x,y) where x > 0 && x > abs(y):
-            if(dirX == -10 && snake.count > 1) {
+        case let (x,y) where x > 0 && x > abs(y): //set snake to move to the right
+            if(dirX == -10 && snake.count > 1) { //check to see if the snake is bigger than 1 point, if so, if the requested move is opposite of what the snake is moving, don't change direction.
                 print("ILLEGAL MOVE!")
                 return
             }
@@ -196,8 +220,8 @@ class GameScene: SKScene {
             dirY = 0
             print("snake right")
             print(position);
-        case let (x,y) where x < 0 && abs(x) > abs(y):
-            if(dirX == 10 && snake.count > 1) {
+        case let (x,y) where x < 0 && abs(x) > abs(y): //set snake to move to the left
+            if(dirX == 10 && snake.count > 1) { //check to see if the snake is bigger than 1 point, if so, if the requested move is opposite of what the snake is moving, don't change direction.
                 print("ILLEGAL MOVE!");
                 return
             }
