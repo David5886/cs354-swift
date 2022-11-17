@@ -51,7 +51,8 @@ class GameScene: SKScene {
     }
     
     func resetGame() {
-        spawnSnake()
+        //spawnSnake()
+        createScene()
         ughtest = 2
         if(ughtest == 2) { //for testing purposes only
             growSnake()
@@ -132,20 +133,28 @@ class GameScene: SKScene {
     func move() {
         var x = 0.0
         var y = 0.0
+        var headX = 0.0
+        var headY = 0.0
         var head = true
         for position in snake {
             let a = head ?
             SKAction.move(by: CGVector(dx: dirX, dy: dirY), duration: 0) :
             SKAction.move(to: CGPoint(x: x, y: y), duration: 0)
+            if(head == true) {
+                headX = Double(position.node.position.x)
+                headY = Double(position.node.position.y)
+            }
             x = Double(position.node.position.x)
             y = Double(position.node.position.y)
             position.node.run(a)
             head = false
         }
-        print(x)
-        print(y)
-        if(x >= self.frame.maxX - 15 || x <= self.frame.minX - 15 || y >= self.frame.maxY - 90 || y <= self.frame.minY - 15) {
-            print("OUT OF BOUNDS")
+        //print(x)
+        //print(y)
+        print(headX)
+        print(headY)
+        if(headX >= self.frame.maxX - 15 || headX <= self.frame.minX - 15 || headY >= self.frame.maxY - 90 || headY <= self.frame.minY - 15) {
+            print("OUT OF BOUNDS!")
             resetGame()
         }
     }
@@ -161,21 +170,41 @@ class GameScene: SKScene {
         let position = (Double(pos.x - self.frame.midX), Double(pos.y - frame.midY))
         switch position {
         case let (x,y) where y > 0 && y > abs(x):
+            if(dirY == -10 && snake.count > 1) {
+                print("ILLEGAL MOVE!");
+                return
+            }
             dirX = 0
             dirY = GameScene.POINT_SIZE
             print("snake up")
+            print(position);
         case let (x,y) where y < 0 && abs(y) > abs(x):
+            if(dirY == 10 && snake.count > 1) {
+                print("ILLEGAL MOVE!")
+                return
+            }
             dirX = 0
             dirY = -GameScene.POINT_SIZE
             print("snake down")
+            print(position);
         case let (x,y) where x > 0 && x > abs(y):
+            if(dirX == -10 && snake.count > 1) {
+                print("ILLEGAL MOVE!")
+                return
+            }
             dirX = GameScene.POINT_SIZE
             dirY = 0
             print("snake right")
+            print(position);
         case let (x,y) where x < 0 && abs(x) > abs(y):
+            if(dirX == 10 && snake.count > 1) {
+                print("ILLEGAL MOVE!");
+                return
+            }
             dirX = -GameScene.POINT_SIZE
             dirY = 0
             print("snake left")
+            print(position);
         default:
             print("Center of screne")
         }
