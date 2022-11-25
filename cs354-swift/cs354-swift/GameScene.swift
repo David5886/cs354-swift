@@ -154,9 +154,10 @@ class GameScene: SKScene {
     func move() {
         var x = 0.0
         var y = 0.0
-        var headX = 0.0
+        var headX = 0.0 //used to track the position of the head snake node (Both headX and headY)
         var headY = 0.0
         var head = true
+        //set positioning variables
         for position in snake {
             let a = head ?
             SKAction.move(by: CGVector(dx: dirX, dy: dirY), duration: 0) :
@@ -170,28 +171,22 @@ class GameScene: SKScene {
             position.node.run(a)
             head = false
         }
-        //print(x)
-        //print(y)
         print(headX)
         print(headY)
+        //Check to see if the snake is within bounds of boardgame. If not, reset the game.
         if(headX >= self.frame.maxX - 15 || headX <= self.frame.minX - 15 || headY >= self.frame.maxY - 90 || headY <= self.frame.minY - 15) {
             print("OUT OF BOUNDS!")
             resetGame()
         }
+        //check to see if the snake has ran into itself. If so, reset the game.
         if(snake.count > 2) {
-            print("Start test")
             for i in 1..<snake.count {
-                //print("Position: ", snake[i].node.position.x)
-//                print("X variables: ", Int(headX), ", ", Int(i.x))
-//                print("Y variables: ", Int(headY), ", ", Int(i.y))
                 if((Int(snake[0].node.position.x) == Int(snake[i].node.position.x)) && (Int(snake[0].node.position.y) == Int(snake[i].node.position.y))) {
                     print("collision detected!")
                     resetGame()
                     return
-                    //return
                 }
             }
-            print("End test")
         }
     }
     
