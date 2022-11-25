@@ -178,6 +178,21 @@ class GameScene: SKScene {
             print("OUT OF BOUNDS!")
             resetGame()
         }
+        if(snake.count > 2) {
+            print("Start test")
+            for i in 1..<snake.count {
+                //print("Position: ", snake[i].node.position.x)
+//                print("X variables: ", Int(headX), ", ", Int(i.x))
+//                print("Y variables: ", Int(headY), ", ", Int(i.y))
+                if((Int(snake[0].node.position.x) == Int(snake[i].node.position.x)) && (Int(snake[0].node.position.y) == Int(snake[i].node.position.y))) {
+                    print("collision detected!")
+                    resetGame()
+                    return
+                    //return
+                }
+            }
+            print("End test")
+        }
     }
     
     var dirX = GameScene.POINT_SIZE
@@ -186,6 +201,8 @@ class GameScene: SKScene {
      When a touch is detected, depending on where the touch was detected, change the position the snake is moving in
      */
     func touchDown(atPoint pos : CGPoint) {
+        growSnake()
+
 //        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
 //            n.position = pos
 //            n.strokeColor = SKColor.green
