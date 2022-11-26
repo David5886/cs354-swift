@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E68130DF29329B420093CCBB /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E68130DE29329B420093CCBB /* MenuScene.sks */; };
 		E69855EF2923249F00939237 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69855EE2923249F00939237 /* MainMenu.swift */; };
 		ED518A8E29240281008771B4 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED518A8D29240281008771B4 /* Snake.swift */; };
 		ED82B0BD2901A11100666661 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82B0BC2901A11100666661 /* AppDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E68130DE29329B420093CCBB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		E69855EE2923249F00939237 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		ED518A8D29240281008771B4 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
 		ED82B0B92901A11100666661 /* cs354-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cs354-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 				ED82B0C92901A11300666661 /* Assets.xcassets */,
 				ED82B0CB2901A11300666661 /* LaunchScreen.storyboard */,
 				E69855EE2923249F00939237 /* MainMenu.swift */,
+				E68130DE29329B420093CCBB /* MenuScene.sks */,
 			);
 			path = "cs354-swift";
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED82B0C82901A11100666661 /* Main.storyboard in Resources */,
+				E68130DF29329B420093CCBB /* MenuScene.sks in Resources */,
 				ED82B0BF2901A11100666661 /* GameScene.sks in Resources */,
 				ED82B0CA2901A11300666661 /* Assets.xcassets in Resources */,
 				ED82B0CD2901A11300666661 /* LaunchScreen.storyboard in Resources */,

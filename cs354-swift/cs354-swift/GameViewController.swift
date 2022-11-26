@@ -10,29 +10,66 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+/*
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let view = self.view as! SKView? {
-            let scene = GameScene(size: view.bounds.size)
-            scene.scaleMode = .aspectFit
-            view.presentScene(scene)
-            // Load the SKScene from 'GameScene.sks'
-//            if let scene = SKScene(fileNamed: "GameScene") {
-//                // Set the scale mode to scale to fit the window
-//                scene.scaleMode = .aspectFill
-//
-//                // Present the scene
-//                view.presentScene(scene)
-//            }
-                        
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.ignoresSiblingOrder = true
+    
+        if let scene = GameScene(fileNamed: "MainMenu"){
+            if let view = self.view as! SKView? {
+                scene.size = view.bounds.size
+                scene.scaleMode = .aspectFit
+                view.presentScene(scene)
+                // Load the SKScene from 'GameScene.sks'
+                //            if let scene = SKScene(fileNamed: "GameScene") {
+                //                // Set the scale mode to scale to fit the window
+                //                scene.scaleMode = .aspectFill
+                //
+                //                // Present the scene
+                //                view.presentScene(scene)
+                //            }
+                
+                view.showsFPS = true
+                view.showsNodeCount = true
+                view.ignoresSiblingOrder = true
+            }
+            
         }
     }
+*/
+    var scene: GameScene?
+    
+    override func loadView(){
+        super.loadView()
+        self.view = SKView()
+        self.view.bounds = UIScreen.main.bounds
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadMainMenu()
+    }
+    
+    
+    // soon will be for only main menu, working on separate function for GameScene
+    func loadMainMenu(){
+        if let view = self.view as? SKView, scene == nil{
+            let scene = GameScene(size: view.bounds.size)
+            view.presentScene(scene)
+            self.scene = scene
+        }
+        
+        /*
+        if let view = self.view as? SKView, scene == nil{
+            let nextScene = GameScene(size: view.bounds.size)
+                let transition = SKTransition.fade(withDuration: 2)
+                view.presentScene(nextScene, transition: transition)
 
+            
+        }
+        */
+}
+    
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
