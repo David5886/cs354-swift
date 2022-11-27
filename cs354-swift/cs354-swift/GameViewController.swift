@@ -36,7 +36,8 @@ class GameViewController: UIViewController {
         }
     }
 */
-    var scene: GameScene?
+    // currently set to launch game not main menu
+    var scene: MenuScene?
     
     override func loadView(){
         super.loadView()
@@ -53,21 +54,11 @@ class GameViewController: UIViewController {
     // soon will be for only main menu, working on separate function for GameScene
     func loadMainMenu(){
         if let view = self.view as? SKView, scene == nil{
-            let scene = GameScene(size: view.bounds.size)
+            let scene = MenuScene(size: view.bounds.size)
             view.presentScene(scene)
             self.scene = scene
         }
-        
-        /*
-        if let view = self.view as? SKView, scene == nil{
-            let nextScene = GameScene(size: view.bounds.size)
-                let transition = SKTransition.fade(withDuration: 2)
-                view.presentScene(nextScene, transition: transition)
-
-            
-        }
-        */
-}
+    }
     
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

@@ -94,24 +94,52 @@ struct MainMenu_Previews: PreviewProvider {
     }
 }
 
+
 class MenuScene:SKScene, SKPhysicsContactDelegate{
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            let location = t.location(in: self)
+            let touchedNode = atPoint(location)
+            if touchedNode.name == "launch_button"{
+                
+                if let view = self.view {
+                    let scene = GameScene(size: view.bounds.size)
+                    view.presentScene(scene)
+                }
+                
+            }
+                
+        }
+    }
+
+    
     override func didMove(to view:SKView){
         self.backgroundColor = .white
         
+        // attributes for game title
         let title = SKSpriteNode(imageNamed: "snakeTitle")
         title.position = CGPoint(x:size.width / 2, y:size.height / 1.7)
         title.setScale(0.42)
         
-        let rect = CGRect(
-            origin: CGPoint(x:size.width,y:size.height),
-            size: UIScreen.main.bounds.size
-        )
+        // attributes for button body
+        let launch = SKShapeNode(rectOf: CGSize(width: 200, height: 70))
+        launch.position = CGPoint(x:size.width / 2, y:size.height / 2.2)
+        launch.fillColor = SKColor.cyan
+        launch.path = UIBezierPath(roundedRect: CGRect(x: -100, y: -100, width: 200, height: 70), cornerRadius: 40).cgPath
+
+    
+        // attributes for button text
+        let play = SKLabelNode(fontNamed: "Andale Mono")
+        play.text = "Play"
+        play.fontColor = SKColor.white
+        play.position = CGPointMake(launch.frame.midX, launch.frame.midY-10)
         
-        let launch = SKShapeNode(rect: rect, cornerRadius: 40)
-        
+        launch.name = "launch_button"
         
         addChild(title)
         addChild(launch)
+        addChild(play)
 
     }
 }
