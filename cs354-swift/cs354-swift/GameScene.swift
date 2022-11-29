@@ -43,7 +43,8 @@ class GameScene: SKScene {
     func addPlayPauseButton() {
         self.pauseButton.name = "PAUSE"
         self.pauseButton.zPosition = 3
-        self.pauseButton.position = CGPointMake(CGRectGetMaxX(self.frame) - pauseButton.frame.width / 2, CGRectGetMaxY(self.frame) - pauseButton.frame.height / 2)
+        self.pauseButton.size = CGSize(width: 50, height: 50)
+        self.pauseButton.position = CGPointMake(CGRectGetMaxX(self.frame) - pauseButton.frame.width / 2 - 10, CGRectGetMaxY(self.frame) - pauseButton.frame.height / 2 - 10)
         self.addChild(pauseButton)
     }
     
