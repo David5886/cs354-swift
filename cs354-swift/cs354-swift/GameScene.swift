@@ -13,7 +13,8 @@ import Darwin
 class GameScene: SKScene {
     
     var ughtest = 0
-    var food:Point!
+    //var food:Point!
+    var food: [Point] = []
     var snake: [Point] = []
     var frames: [Point] = []
     private static let POINT_SIZE = 10
@@ -47,22 +48,33 @@ class GameScene: SKScene {
     }
     
     func newFruit() {
-        
+        let xFood = Int.random(in:15...Int(self.frame.maxX - 15))
+        let yFood = Int.random(in:25...Int(self.frame.maxY - 100))
+        let foodColor = UIColor.green
+        let point = createPoint(x: xFood/10*10, y: yFood/10*10)
+        point.node.color = foodColor
+        addChild(point.node)
+        food.removeAll()
+        food.append(point)
+        frames.append(point)
+        print("Fruit generated")
+    }
+    
+    func ateFruit() {
+        print("Food ate")
+        //food[0].node.color = UIColor.blue
+        food[0].node.removeFromParent()
+        food[0].node.removeAllChildren()
+        //food = []
+        newFruit()
+        growSnake()
     }
     
     /**
      Resets the game to initial state
      */
     func resetGame() {
-        //spawnSnake()
         createScene()
-        ughtest = 2
-        if(ughtest == 2) { //for testing purposes only
-            growSnake()
-            growSnake()
-            growSnake()
-            growSnake()
-        }
     }
     
     /**
@@ -81,7 +93,7 @@ class GameScene: SKScene {
         frames = []
         let width = Int(frame.width)
         let height = Int(frame.height)
-        createHorzFrame(y: height-75, minX: 0, maxX: width)
+        createHorzFrame(y: height-75, minX: 0, maxX: width+50)
     }
     
     /**
@@ -99,9 +111,9 @@ class GameScene: SKScene {
      Point is used for game elements. Such as the snake, top boarder, and fruit
      */
     func createPoint(x:Int,y:Int) -> Point {
-        let node = SKSpriteNode(color: UIColor(red:1,green:1,blue:0,alpha:1), size: CGSize(width: GameScene.POINT_SIZE, height: GameScene.POINT_SIZE))
-        node.position = CGPoint(x:x,y:y)
-        let point = Point(node: node, x:x,y:y)
+        let node = SKSpriteNode(color: UIColor(red:1,green:1,blue:0,alpha:1), size: CGSize(width: GameScene.POINT_SIZE/10*10, height: GameScene.POINT_SIZE/10*10))
+        node.position = CGPoint(x:x/10*10,y:y/10*10)
+        let point = Point(node: node, x:x/10*10,y:y/10*10)
         point.phys(category.snakeCat, category.foodCat | category.frameCat | category.snakeCat, true)
         point.node.physicsBody?.usesPreciseCollisionDetection = true
         return point
@@ -116,12 +128,14 @@ class GameScene: SKScene {
      */
     func createScene() {
         backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
-        dirX = GameScene.POINT_SIZE
+        dirX = GameScene.POINT_SIZE/10*10
         dirY = 0
         //newFruit()
         createFrames()
         spawnSnake()
+        newFruit()
     }
+
     
     /**
      Spawns the snake onto the game board.
@@ -131,17 +145,15 @@ class GameScene: SKScene {
             s.node.removeFromParent()
         }
         snake = []
-        createSnake(x: Int(frame.midX), y: Int(frame.midY))
+        createSnake(x: Int(frame.midX)/10*10, y: Int(frame.midY)/10*10)
+        //createSnake(x: 100, y: 100)
     }
     
     func createSnake(x:Int,y:Int) {
         for i in 0...2 {
-            let point = createPoint(x:x - GameScene.POINT_SIZE*i, y:y)
+            let point = createPoint(x:x - GameScene.POINT_SIZE*i/10*10, y:y/10*10)
             if i == 0 {
                 point.node.color = UIColor(red:1,green:1,blue:0,alpha:1)
-                if i == 0 {
-                    //print("head")
-                }
                 addChild(point.node)
                 snake.append(point)
             }
@@ -160,19 +172,19 @@ class GameScene: SKScene {
         //set positioning variables
         for position in snake {
             let a = head ?
-            SKAction.move(by: CGVector(dx: dirX, dy: dirY), duration: 0) :
-            SKAction.move(to: CGPoint(x: x, y: y), duration: 0)
+            SKAction.move(by: CGVector(dx: dirX/10*10, dy: dirY/10*10), duration: 0) :
+            SKAction.move(to: CGPoint(x: x/10*10, y: y/10*10), duration: 0)
             if(head == true) {
-                headX = Double(position.node.position.x)
-                headY = Double(position.node.position.y)
+                headX = Double(position.node.position.x)/10*10
+                headY = Double(position.node.position.y)/10*10
             }
-            x = Double(position.node.position.x)
-            y = Double(position.node.position.y)
+            x = Double(position.node.position.x)/10*10
+            y = Double(position.node.position.y)/10*10
             position.node.run(a)
             head = false
         }
-        print(headX)
-        print(headY)
+        print(Int(headX))
+        print(Int(headY))
         //Check to see if the snake is within bounds of boardgame. If not, reset the game.
         if(headX >= self.frame.maxX - 15 || headX <= self.frame.minX - 15 || headY >= self.frame.maxY - 90 || headY <= self.frame.minY - 15) {
             print("OUT OF BOUNDS!")
@@ -188,6 +200,26 @@ class GameScene: SKScene {
                 }
             }
         }
+        
+        //check to see if the snake has ate the fruit
+        print("Food check")
+        print(Int(food[0].node.position.x))
+        var foodX = Int(food[0].node.position.x)
+        var foodY = Int(food[0].node.position.y)
+        let IntX = Int(headX)
+        let IntY = Int(headY)
+        print(Int(food[0].node.position.y))
+        print("Food check end")
+
+        if((foodX % 10 == 0) && foodX > 0) {
+            foodX = foodX - 1
+        }
+        if((foodY % 10 == 0) && foodY > 0) {
+            foodY = foodY - 1
+        }
+        if(((foodX == IntX) && (foodY == IntY)) || ((foodX == IntX-1) && (foodY == IntY)) || ((foodX == IntX + 1) && (foodY == IntY)) || ((foodX == IntX) && (foodY == IntY + 1)) || ((foodX == IntX) && (foodY == IntY - 1)) || ((foodX == IntX + 1) && (foodY == IntY + 1)) || ((foodX == IntX - 1) && (foodY == IntY - 1)) || ((foodX == IntX + 1) && (foodY == IntY - 1)) || ((foodX == IntX - 1) && (foodY == IntY + 1))) {
+            ateFruit()
+        }
     }
     
     var dirX = GameScene.POINT_SIZE
@@ -196,7 +228,7 @@ class GameScene: SKScene {
      When a touch is detected, depending on where the touch was detected, change the position the snake is moving in
      */
     func touchDown(atPoint pos : CGPoint) {
-        growSnake()
+        //growSnake()
 
 //        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
 //            n.position = pos
