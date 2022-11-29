@@ -11,20 +11,20 @@ import SwiftUI
 import Darwin
 
 class GameScene: SKScene {
-    
-    var ughtest = 0
-    //var food:Point!
     var food: [Point] = []
     var snake: [Point] = []
     var frames: [Point] = []
     var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "PLAY-PAUSE");
-    private static let POINT_SIZE = 10
+    private static let POINT_SIZE = 10 //site of the nodes that make up our game scene
     
     override func didMove(to view: SKView) {
         createScene()
         addPlayPauseButton()
     }
     
+    /**
+     Start the game, initializing the game board and game peices.
+     */
     func start(_ contact: SKPhysicsContact) {
         let snakeFood = category.foodCat | category.snakeCat
         let snakeFrame = category.snakeCat | category.frameCat
@@ -49,30 +49,30 @@ class GameScene: SKScene {
         self.addChild(pauseButton)
     }
     
-    func stop() {
-        
-    }
-    
-    func setup() {
-        
-    }
-    
+    /**
+     Create a new fruit and add it to the game board.
+     */
     func newFruit() {
-        let xFood = Int.random(in:15...Int(self.frame.maxX - 15))
+        let xFood = Int.random(in:15...Int(self.frame.maxX - 15)) //Set a random coordinate the spawn the fruit at
         let yFood = Int.random(in:25...Int(self.frame.maxY - 100))
-        let foodColor = UIColor.green
-        let point = createPoint(x: xFood/10*10, y: yFood/10*10)
-        point.node.color = foodColor
+        let foodColor = UIColor.green //set the color of the fruit
+        let point = createPoint(x: xFood/10*10, y: yFood/10*10) //create the fruit.
+        point.node.color = foodColor //set the color of the node
         addChild(point.node)
-        food.removeAll()
-        food.append(point)
+        food.removeAll() //clear the food array, this makes sure only 1 fruit is on the board at a time
+        food.append(point) //add the fruit to the game board
         frames.append(point)
-        print("Fruit generated")
+        print("Fruit generated at the following points:")
+        print(xFood)
+        print(yFood)
+        print("")
     }
     
+    /**
+     When the snake has ate the fruit, clear the node from the board, gnerate a new fruit, and grow the snake by 1 node.
+     */
     func ateFruit() {
         print("Food ate")
-        //food[0].node.color = UIColor.blue
         food[0].node.removeFromParent()
         food[0].node.removeAllChildren()
         //food = []
@@ -96,6 +96,9 @@ class GameScene: SKScene {
         snake.append(snakePoint)
     }
     
+    /**
+     Creates the area of the screen that the snake and fruit will appear on.
+     */
     func createFrames() {
         for f in frames {
             f.node.removeFromParent()
@@ -129,10 +132,6 @@ class GameScene: SKScene {
         return point
     }
     
-//    func createSnakePoint(x:Int,y:Int) {
-//        return 0
-//    }
-    
     /**
      Creates the gameboard, and sets default starting direction. It then calls functions to create fruit, frames, and spawn the snake onto the game board.
      */
@@ -146,7 +145,6 @@ class GameScene: SKScene {
         newFruit()
     }
 
-    
     /**
      Spawns the snake onto the game board.
      */
@@ -159,6 +157,9 @@ class GameScene: SKScene {
         //createSnake(x: 100, y: 100)
     }
     
+    /**
+     Create the initial snake head and adds it to the scene.
+     */
     func createSnake(x:Int,y:Int) {
         for i in 0...2 {
             let point = createPoint(x:x - GameScene.POINT_SIZE*i/10*10, y:y/10*10)
@@ -195,6 +196,7 @@ class GameScene: SKScene {
         }
         print(Int(headX))
         print(Int(headY))
+        print("")
         //Check to see if the snake is within bounds of boardgame. If not, reset the game.
         if(headX >= self.frame.maxX - 15 || headX <= self.frame.minX - 15 || headY >= self.frame.maxY - 90 || headY <= self.frame.minY - 15) {
             print("OUT OF BOUNDS!")
@@ -212,14 +214,10 @@ class GameScene: SKScene {
         }
         
         //check to see if the snake has ate the fruit
-        print("Food check")
-        print(Int(food[0].node.position.x))
         var foodX = Int(food[0].node.position.x)
         var foodY = Int(food[0].node.position.y)
         let IntX = Int(headX)
         let IntY = Int(headY)
-        print(Int(food[0].node.position.y))
-        print("Food check end")
 
         if((foodX % 10 == 0) && foodX > 0) {
             foodX = foodX - 1
@@ -238,13 +236,6 @@ class GameScene: SKScene {
      When a touch is detected, depending on where the touch was detected, change the position the snake is moving in
      */
     func touchDown(atPoint pos : CGPoint) {
-        //growSnake()
-
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.green
-//            self.addChild(n)
-//        }
         let position = (Double(pos.x - self.frame.midX), Double(pos.y - frame.midY))
         switch position {
         case let (x,y) where y > 0 && y > abs(x): //Set snake to move up
@@ -289,19 +280,11 @@ class GameScene: SKScene {
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.blue
-//            self.addChild(n)
-//        }
+
     }
     
     func touchUp(atPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.red
-//            self.addChild(n)
-//        }
+
     }
     
     func pauseGame() {
@@ -313,10 +296,6 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let label = self.label {
-//            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-//        }
-        
         for t in touches {
             let location = t.location(in: self)
             
@@ -342,6 +321,9 @@ class GameScene: SKScene {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
+    /**
+     This function controls how fast the game board updates. 
+     */
     var timeD:TimeInterval=0
     var oldTime:TimeInterval=0
     override func update(_ currentTime: TimeInterval) {
