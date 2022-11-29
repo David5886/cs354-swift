@@ -16,10 +16,12 @@ class GameScene: SKScene {
     var food:Point!
     var snake: [Point] = []
     var frames: [Point] = []
+    var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "PLAY-PAUSE");
     private static let POINT_SIZE = 10
     
     override func didMove(to view: SKView) {
         createScene()
+        addPlayPauseButton()
     }
     
     func start(_ contact: SKPhysicsContact) {
@@ -36,6 +38,13 @@ class GameScene: SKScene {
         default:
             print("test")
         }
+    }
+    
+    func addPlayPauseButton() {
+        self.pauseButton.name = "PAUSE"
+        self.pauseButton.zPosition = 3
+        self.pauseButton.position = CGPointMake(CGRectGetMaxX(self.frame) - pauseButton.frame.width / 2, CGRectGetMaxY(self.frame) - pauseButton.frame.height / 2)
+        self.addChild(pauseButton)
     }
     
     func stop() {
@@ -262,12 +271,30 @@ class GameScene: SKScene {
 //        }
     }
     
+    func pauseGame() {
+        if (scene?.view?.isPaused == true) {
+            scene?.view?.isPaused = false
+        } else {
+            scene?.view?.isPaused = true
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        if let label = self.label {
 //            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
 //        }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        for t in touches {
+            let location = t.location(in: self)
+            
+            if (pauseButton.contains(location)) {
+                print("Game is paused")
+                pauseGame()
+            }
+            self.touchDown(atPoint: t.location(in: self))
+            
+        }
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
