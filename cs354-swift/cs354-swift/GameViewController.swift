@@ -36,7 +36,6 @@ class GameViewController: UIViewController {
         }
     }
 */
-    // currently set to launch game not main menu
     var scene: MenuScene?
     
     override func loadView(){
@@ -51,7 +50,6 @@ class GameViewController: UIViewController {
     }
     
     
-    // soon will be for only main menu, working on separate function for GameScene
     func loadMainMenu(){
         if let view = self.view as? SKView, scene == nil{
             let scene = MenuScene(size: view.bounds.size)

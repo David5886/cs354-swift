@@ -125,7 +125,7 @@ class MenuScene:SKScene, SKPhysicsContactDelegate{
         // attributes for button body
         let launch = SKShapeNode(rectOf: CGSize(width: 200, height: 70))
         launch.position = CGPoint(x:size.width / 2, y:size.height / 2.2)
-        launch.fillColor = SKColor.cyan
+        launch.fillColor = UIColor(red: 18/255, green: 75/255, blue: 121/255, alpha: 175)
         launch.path = UIBezierPath(roundedRect: CGRect(x: -100, y: -100, width: 200, height: 70), cornerRadius: 40).cgPath
 
     

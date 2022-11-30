@@ -107,6 +107,7 @@ class GameScene: SKScene {
         let width = Int(frame.width)
         let height = Int(frame.height)
         createHorzFrame(y: height-75, minX: 0, maxX: width+50)
+        createHorzFrame(y: 0, minX: 0, maxX: width+50)
     }
     
     /**
@@ -124,7 +125,7 @@ class GameScene: SKScene {
      Point is used for game elements. Such as the snake, top boarder, and fruit
      */
     func createPoint(x:Int,y:Int) -> Point {
-        let node = SKSpriteNode(color: UIColor(red:1,green:1,blue:0,alpha:1), size: CGSize(width: GameScene.POINT_SIZE/10*10, height: GameScene.POINT_SIZE/10*10))
+        let node = SKSpriteNode(color: UIColor(red:15/255,green:233/255,blue:255/255,alpha:1), size: CGSize(width: GameScene.POINT_SIZE/10*10, height: GameScene.POINT_SIZE/10*10))
         node.position = CGPoint(x:x/10*10,y:y/10*10)
         let point = Point(node: node, x:x/10*10,y:y/10*10)
         point.phys(category.snakeCat, category.foodCat | category.frameCat | category.snakeCat, true)
@@ -136,7 +137,7 @@ class GameScene: SKScene {
      Creates the gameboard, and sets default starting direction. It then calls functions to create fruit, frames, and spawn the snake onto the game board.
      */
     func createScene() {
-        backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+        backgroundColor = UIColor(red: 6/255, green: 18/255, blue: 82/255, alpha: 1)
         dirX = GameScene.POINT_SIZE/10*10
         dirY = 0
         //newFruit()
@@ -164,7 +165,7 @@ class GameScene: SKScene {
         for i in 0...2 {
             let point = createPoint(x:x - GameScene.POINT_SIZE*i/10*10, y:y/10*10)
             if i == 0 {
-                point.node.color = UIColor(red:1,green:1,blue:0,alpha:1)
+                point.node.color = UIColor(red:15/255,green:233/255,blue:255/255,alpha:1)
                 addChild(point.node)
                 snake.append(point)
             }
