@@ -14,7 +14,8 @@ class GameScene: SKScene {
     var food: [Point] = []
     var snake: [Point] = []
     var frames: [Point] = []
-    var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "PLAY-PAUSE");
+    var pauseButton: SKSpriteNode = SKSpriteNode();
+
     private static let POINT_SIZE = 10 //site of the nodes that make up our game scene
     
     override func didMove(to view: SKView) {
@@ -42,10 +43,11 @@ class GameScene: SKScene {
     }
     
     func addPlayPauseButton() {
+        self.pauseButton.texture = SKTexture(imageNamed: "PauseButton")
         self.pauseButton.name = "PAUSE"
-        self.pauseButton.zPosition = 3
+        self.pauseButton.zPosition = 5
         self.pauseButton.size = CGSize(width: 50, height: 50)
-        self.pauseButton.position = CGPointMake(CGRectGetMaxX(self.frame) - pauseButton.frame.width / 2 - 10, CGRectGetMaxY(self.frame) - pauseButton.frame.height / 2 - 10)
+        self.pauseButton.position = CGPointMake(CGRectGetMaxX(self.frame) - pauseButton.frame.width / 2 - 10, CGRectGetMaxY(self.frame) - pauseButton.frame.height / 2 - 20)
         self.addChild(pauseButton)
     }
     
@@ -289,14 +291,20 @@ class GameScene: SKScene {
     }
     
     func pauseGame() {
+
         if (scene?.view?.isPaused == true) {
+            self.pauseButton.texture = SKTexture(imageNamed: "PauseButton")
             scene?.view?.isPaused = false
+
         } else {
+            self.pauseButton.texture = SKTexture(imageNamed: "PlayButton")
             scene?.view?.isPaused = true
+
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
         for t in touches {
             let location = t.location(in: self)
             
@@ -305,9 +313,8 @@ class GameScene: SKScene {
                 pauseGame()
             }
             self.touchDown(atPoint: t.location(in: self))
-            
+
         }
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
