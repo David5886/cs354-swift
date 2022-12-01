@@ -147,7 +147,7 @@ class GameScene: SKScene {
         backgroundColor = UIColor(red: 6/255, green: 18/255, blue: 82/255, alpha: 1)
         dirX = GameScene.POINT_SIZE/10*10
         dirY = 0
-        //newFruit()
+        foodSprite.removeFromParent()
         createFrames()
         spawnSnake()
         newFruit()
