@@ -15,6 +15,7 @@ class GameScene: SKScene {
     var snake: [Point] = []
     var frames: [Point] = []
     var pauseButton: SKSpriteNode = SKSpriteNode();
+    let foodSprite = SKSpriteNode(imageNamed: "apple")
 
     private static let POINT_SIZE = 10 //site of the nodes that make up our game scene
     
@@ -60,7 +61,10 @@ class GameScene: SKScene {
         let foodColor = UIColor.green //set the color of the fruit
         let point = createPoint(x: xFood/10*10, y: yFood/10*10) //create the fruit.
         point.node.color = foodColor //set the color of the node
+        foodSprite.setScale(0.06)
+        foodSprite.position = CGPoint(x:xFood/10*10, y: yFood/10*10)
         addChild(point.node)
+        addChild(foodSprite)
         food.removeAll() //clear the food array, this makes sure only 1 fruit is on the board at a time
         food.append(point) //add the fruit to the game board
         frames.append(point)
@@ -74,6 +78,7 @@ class GameScene: SKScene {
      When the snake has ate the fruit, clear the node from the board, gnerate a new fruit, and grow the snake by 1 node.
      */
     func ateFruit() {
+        foodSprite.removeFromParent()
         print("Food ate")
         food[0].node.removeFromParent()
         food[0].node.removeAllChildren()
