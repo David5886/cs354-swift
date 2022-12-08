@@ -11,17 +11,20 @@ import SwiftUI
 import Darwin
 
 class GameScene: SKScene {
+    var score = 0
     var food: [Point] = []
     var snake: [Point] = []
     var frames: [Point] = []
     var pauseButton: SKSpriteNode = SKSpriteNode();
     let foodSprite = SKSpriteNode(imageNamed: "apple")
+    let scoreLabel = SKLabelNode(fontNamed: "ArialMT")
 
     private static let POINT_SIZE = 10 //site of the nodes that make up our game scene
     
     override func didMove(to view: SKView) {
         createScene()
         addPlayPauseButton()
+        addScore()
     }
     
     /**
@@ -41,6 +44,14 @@ class GameScene: SKScene {
         default:
             print("test")
         }
+    }
+    
+    func addScore() {
+        self.scoreLabel.text = "Score: " + String(score)
+        self.scoreLabel.fontSize = 30
+        self.scoreLabel.fontColor = SKColor.white
+        self.scoreLabel.position = CGPoint(x:frame.minX + 75, y:frame.maxY - 65)
+        addChild(scoreLabel)
     }
     
     func addPlayPauseButton() {
@@ -78,6 +89,10 @@ class GameScene: SKScene {
      When the snake has ate the fruit, clear the node from the board, gnerate a new fruit, and grow the snake by 1 node.
      */
     func ateFruit() {
+        score += 10
+        scoreLabel.text = "Score: " + String(score)
+        print("Score increase:")
+        print(score)
         foodSprite.removeFromParent()
         print("Food ate")
         food[0].node.removeFromParent()
@@ -91,6 +106,8 @@ class GameScene: SKScene {
      Resets the game to initial state
      */
     func resetGame() {
+        score = 0
+        scoreLabel.text = "Score: " + String(score)
         createScene()
     }
     
@@ -343,7 +360,7 @@ class GameScene: SKScene {
         super.update(currentTime)
         timeD = timeD + (currentTime - oldTime)
         oldTime = currentTime
-        if timeD > 0.15 { //This number controls the speed of our "snake"
+        if timeD > 0.13 { //This number controls the speed of our "snake"
             move()
             timeD = 0
         }
