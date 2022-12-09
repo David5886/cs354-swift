@@ -1,4 +1,4 @@
-To recreate the environment we ran and veiwed on code on, do the following:
+To recreate the environment we ran and veiwed our code on, do the following:
 
 1. Download XCode (version 14.1) on a machine running macOS Monterey 12.5 or later. 
 3. Open XCode, from the menu, select 'Open a Project or File'.
