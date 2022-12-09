@@ -101,7 +101,7 @@ class MenuScene:SKScene, SKPhysicsContactDelegate{
         for t in touches {
             let location = t.location(in: self)
             let touchedNode = atPoint(location)
-            if touchedNode.name == "launch_button"{
+            if touchedNode.name == "launch_button" || touchedNode.name == "Play"{
                 
                 if let view = self.view {
                     let scene = GameScene(size: view.bounds.size)
@@ -136,6 +136,7 @@ class MenuScene:SKScene, SKPhysicsContactDelegate{
         play.position = CGPointMake(launch.frame.midX, launch.frame.midY-10)
         
         launch.name = "launch_button"
+        play.name = "Play"
         
         addChild(title)
         addChild(launch)
